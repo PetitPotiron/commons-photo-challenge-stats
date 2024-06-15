@@ -1,0 +1,12 @@
+code {
+    font-family: Consolas, 'Courier New', Courier, monospace;
+    font-size: inherit;
+    background-color:cadetblue;
+    color: azure;
+    padding-right: 3px;
+    padding-left: 3px;
+    line-height: 1.2;
+}
+* {
+    text-align: justify;
+}

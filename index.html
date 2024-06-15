@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Challenge Statister</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="search">
+        <form action="" method="get">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field name</td>
+                        <th>Field description</th>
+                        <th>Usual field format (case sensitive)</th>
+                        <th>Field example</th>
+                        <td>Input field</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label for="challenge-name">challenge-name</label>
+                        </td>
+                        <td>
+                            <p>
+                                The official name of the challenge, as written on the challenge page. If unprovided, the
+                                next
+                                <label for="challenge-url"><code>challenge-url</code></label> field should be provided.
+                            </p>
+                        </td>
+                        <td>
+                            <p>
+                                <code>YEAR - Month - Theme</code>
+                            </p>
+                        </td>
+                        <td>
+                            <p><code>2013 - December - Silhouette</code></p>
+                        </td>
+                        <td>
+                            <input type="text" name="challenge-name" id="challenge-name"
+                                placeholder="YEAR - Month - Theme">
+                        </td>
+                    </tr>
+                    <!--           <tr>
+                        <td>
+                            <p><label for="challenge-url">challenge-url</label></p>
+                        </td>
+                        <td>
+                            <p>An accessible URL for the challenge. Could be shortened, but should redirect to the
+                                challenge
+                                official page. If unprovided, the previous <label
+                                    for="challenge-name"><code>challenge-name</code></label> field should be provided.
+                            </p>
+                        </td>
+                        <td>
+                            <p>
+                                <code>https://commons.wikimedia.org/wiki/Commons:Photo_challenge/YEAR_-_Month_-_Theme</code>
+                            </p>
+                        </td>
+                        <td>
+                            <p><code>https://commons.wikimedia.org/wiki/Commons:Photo_challenge/2013_-_December_-_Silhouette</code>
+                            </p>
+                        </td>
+                        <td>
+                            <p><input type="text" name="challenge-url" id="challenge-url"
+                                    placeholder="https://commons.wikimedia.org/wiki/Commons:Photo_challenge/YEAR_-_Month_-_Theme">
+                            </p>
+                        </td>
+                    </tr>-->
+                </tbody>
+                tr>(td>p>label)+(td>p)+((td>p>code)*2)+td>p>input:text[placeholder]
+            </table>
+            <input type="submit" value="Search !">
+        </form>
+    </div>
+    <div class="results" id="results">
+
+    </div>
+    <script src="scripts.js"></script>
+</body>
+
+</html>

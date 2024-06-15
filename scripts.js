@@ -62,13 +62,9 @@ else {
                 /* if <ul> and img not siblings, do the calculations */
                 while (ul.parentElement != document.getElementsByTagName('figure')[0].parentElement){
                     var tempParent = ul.parentElement
-                    //ul.parentElement.removeChild(ul)
-                    //tempParent.parentElement.appendChild(ul)
                     tempParent.parentElement.insertBefore(ul, tempParent)
-                    console.log(tempParent, ul)
                 }
                 var im = ul.previousElementSibling // the image to which the povs are attached to
-                //console.log(im, ul)
                 while (im.tagName != 'FIGURE') {
                     im = im.previousElementSibling
                 }
@@ -100,7 +96,7 @@ else {
                 }
             }
             console.log(pov)
-            //results.removeChild(results.children[0])
+            results.removeChild(results.children[0])
             stats.support = {}
             stats.score = {}
             for (image of pov) {

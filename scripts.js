@@ -57,12 +57,20 @@ else {
             console.log(pov)
             /* get all the <ul> of POV */
             pov = Array.from(images, (im) => { return { score: 0, support: 0, href: im.href } })
-            console.log(pov)
             var spans = []
             for (ul of document.getElementsByTagName('ul')) {
-                var im = ul.previousSibling // the image to which the povs are attached to
+                /* if <ul> and img not siblings, do the calculations */
+                while (ul.parentElement != document.getElementsByTagName('figure')[0].parentElement){
+                    var tempParent = ul.parentElement
+                    //ul.parentElement.removeChild(ul)
+                    //tempParent.parentElement.appendChild(ul)
+                    tempParent.parentElement.insertBefore(ul, tempParent)
+                    console.log(tempParent, ul)
+                }
+                var im = ul.previousElementSibling // the image to which the povs are attached to
+                //console.log(im, ul)
                 while (im.tagName != 'FIGURE') {
-                    im = im.previousSibling
+                    im = im.previousElementSibling
                 }
                 im = images.indexOf(im.children[0])
                 if (im != -1) { // get rid of the example !!!
@@ -92,7 +100,7 @@ else {
                 }
             }
             console.log(pov)
-            results.removeChild(results.children[0])
+            //results.removeChild(results.children[0])
             stats.support = {}
             stats.score = {}
             for (image of pov) {

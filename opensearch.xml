@@ -6,4 +6,7 @@
   <Image width="16" height="16" type="image/x-icon">https://commons.wikimedia.org/static/favicon/commons.ico</Image>
   <Url type="text/html" template="https://petitpotiron.github.io/commons-photo-challenge-stats/?challenge-name={searchTerms}"/>
   <moz:SearchForm>https://petitpotiron.github.io/commons-photo-challenge-stats/</moz:SearchForm>
+  <Url type="application/opensearchdescription+xml"
+     rel="self"
+     template="https://petitpotiron.github.io/commons-photo-challenge-stats/opensearch.xml" />
 </OpenSearchDescription>

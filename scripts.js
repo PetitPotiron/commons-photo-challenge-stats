@@ -38,11 +38,9 @@ else {
         results.innerHTML = JSON.parse(xhr.response).parse.text
         entries = Array.from(results.getElementsByTagName('a'), (a) => { if (a.className == "mw-file-description") { return a.href } })
         entries = entries.filter((entry) => { return (entry != null) }) // pictures
-        console.log("entries", entries)
 
         /* then get the photo challenge voting page */
         api_url = get_api_url(challenge_name, action = '/Voting')
-        console.log('API URL for this photo challenge', api_url)
         get_page(api_url, (req) => {
             results.innerHTML = JSON.parse(req.response).parse.text
             images = Array.from(results.getElementsByTagName('a'), (a) => { if (a.className == "mw-file-description") { return a } })
@@ -50,17 +48,15 @@ else {
             /* keep the pictures of the voting page which are on the entries page */
             images = images.filter((entry) => { return (entry != null) }) // pictures
             images = images.filter((image) => { return entries.includes(image.href) }) // keep the entries, remove the example and exclude the example files on the entry pages
-            console.log("images", images)
             stats.entries_number = images.length
 
             /* get the voters POV for each entry */
-            console.log(pov)
             /* get all the <ul> of POV */
             pov = Array.from(images, (im) => { return { score: 0, support: 0, href: im.href } })
             var spans = []
             for (ul of document.getElementsByTagName('ul')) {
                 /* if <ul> and img not siblings, do the calculations */
-                while (ul.parentElement != document.getElementsByTagName('figure')[0].parentElement){
+                while (ul.parentElement != document.getElementsByTagName('figure')[0].parentElement) {
                     var tempParent = ul.parentElement
                     tempParent.parentElement.insertBefore(ul, tempParent)
                 }
@@ -95,13 +91,17 @@ else {
                     pov[im].support = support
                 }
             }
-            console.log(pov)
             results.removeChild(results.children[0])
             stats.support = {}
             stats.score = {}
+            stats.individual_image_stats = {}
             for (image of pov) {
                 stats.score[image.score] = []
                 stats.support[image.support] = []
+                stats.individual_image_stats[image.href] = {
+                    score: image.score,
+                    support: image.support
+                }
             }
             for (image of pov) {
                 stats.score[image.score].push(image.href)
@@ -113,7 +113,31 @@ else {
             arr = Array.from(Object.keys(stats.support), (key) => parseInt(key))
             max = arr.reduce((a, b) => Math.max(a, b), -Infinity)
             results.innerHTML += `<br>Best support : <code>${JSON.stringify(max)}</code> by <code>${stats.support[max].join("</code>, <code>").replaceAll(document.location.origin + '/wiki/', '')}</code>`
-            results.innerHTML += `<br>In case of a tie, compare supports by <a  download="${challenge_name}_results.json" href="data:text/json;base64,${btoa(JSON.stringify(stats))}">downloading</a> the entire results json file`
+            results.innerHTML += `<br>In case of a tie, compare supports by <a  download="${challenge_name}_results.json" href="data:text/json;base64,${btoa(JSON.stringify(stats))}">downloading</a> the entire results <code>json</code> file`
+
+            /* Create the leaderboard */
+            let lb = `{| class="sortable wikitable"
+|-
+! Image !! Author !! data-sort-type="number" | Rank !! data-sort-type="number" | Score !! data-sort-type="number" | Support
+|-}`
+            for (key of Object.keys(stats.score).sort((a, b) => (parseInt(b) - parseInt(a)))) {
+                let supports = []
+                for (img of stats.score[key]) {
+                    supports.push({ num: stats.individual_image_stats[img].support, im: img })
+                }
+                supports.sort((a, b) => (b.num - a.num))
+                supports = supports.map((entry,index)=>{
+                    return {num:entry.num, im:entry.im}
+                })
+                console.log(supports)
+                for (img of supports) {
+                    lb += `
+| [[${img.im}|120px]] || [[User:]] || 0 || ${key} || ${img.num}
+|-` // TODO get the author and rank
+                }
+            }
+            lb = lb.replaceAll(document.location.origin + '/wiki/', '')
+            results.innerHTML += `<br>It is possible to download a BETA wikicode table  <a  download="${challenge_name}_wikitable.txt" href="data:text/txt;base64,${btoa(lb)}">downloading</a> the <code>txt</code> file`
         })
     })
 
